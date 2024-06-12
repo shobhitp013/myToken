@@ -53,6 +53,6 @@ Once the code is compiled, you can deploy the contract by clicking on the "Deplo
 the transaction will availble.
 # Authors
 Shobhit Pandey
-@shobhit013
+@shobhitp013
 # License
 This project is licensed under the MIT License - see the LICENSE.md file for details
