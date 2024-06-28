@@ -7,6 +7,7 @@ this code provides a basic structure for a MyToken contract. It defines key deta
 To run this program, you can use Remix, an online Solidity IDE. To get started, go to the Remix website at https://remix.ethereum.org/.
 
 Once you are on the Remix website, create a new file by clicking on the "+" icon in the left-hand sidebar. Save the file with a .sol extension (e.g., mytoken.sol). Copy and paste the following code into the file:
+
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.18;
 
@@ -24,30 +25,33 @@ pragma solidity 0.8.18;
        to the amount that is supposed to be burned.
 */
 
+
 contract MyToken {
-
-     // public variables here
     string public tokenName = "CRAFT";
-    string public tokenAbbrv = "CFT";
+    string public tokenAbbvr = "CFT";
     uint public totalSupply = 0;
-
-     // mapping variable here 
-     mapping(address => uint) public balances;
-
-     // mint function
-    function mint (address _address , uint _value) public {
-       totalSupply += _value;
-       balances[_address] += _value;
+    
+    mapping(address => uint) public balances;
+    
+    function mint(address _to, uint _value) public {
+        require(_to != address(0), "_to cannot be the zero address");
+        
+        totalSupply += _value;
+        balances[_to] += _value;
     }
-
-     // burn function
-    function burn (address _address, uint _value) public {
-       if (balances[_address] >= _value) {
-          totalSupply -= _value;
-          balances[_address] -=_value;
-        }
+    
+    function burn(address _from, uint _value) public {
+        require(balances[_from] >= _value, "Insufficient balance");
+        
+        balances[_from] -= _value;
+        totalSupply -= _value;
+    }
+    
+    function balanceOf(address _address) public view returns (uint256) {
+        return balances[_address];
     }
 }
+
 To compile the code, click on the "Solidity Compiler" tab in the left-hand sidebar. Make sure the "Compiler" option is set to "0.8.18" (or another compatible version), and then click on the "Compile mytoken.sol" button.
 Once the code is compiled, you can deploy the contract by clicking on the "Deploy & Run Transactions" tab in the left-hand sidebar. Select the "MY Token" contract from the dropdown menu, and then click on the "Deploy" button.
 the transaction will availble.
