@@ -15,28 +15,29 @@ pragma solidity 0.8.18;
        to the amount that is supposed to be burned.
 */
 
+
 contract MyToken {
-
-    // public variables here
-string public tokenName = "CRAFT";
-string public tokenAbbvr = "CFT";
-uint public totalSupply = 0;
-
-
-    // mapping variable here
-mapping(address => uint) public balances;
-    // mint function
-function mint (address _address, uint _value)public{
-  totalSupply += _value;
-  balances[_address] += _value;
-}
-    // burn function
-function burn (address _address, uint _value)public{
-  if(balances[_address] >= _value){
-
-  
-  totalSupply -= _value;
-  balances[_address] -= _value;
-  }
-}
+    string public tokenName = "CRAFT";
+    string public tokenAbbvr = "CFT";
+    uint public totalSupply = 0;
+    
+    mapping(address => uint) public balances;
+    
+    function mint(address _to, uint _value) public {
+        require(_to != address(0), "_to cannot be the zero address");
+        
+        totalSupply += _value;
+        balances[_to] += _value;
+    }
+    
+    function burn(address _from, uint _value) public {
+        require(balances[_from] >= _value, "Insufficient balance");
+        
+        balances[_from] -= _value;
+        totalSupply -= _value;
+    }
+    
+    function balanceOf(address _address) public view returns (uint256) {
+        return balances[_address];
+    }
 }
